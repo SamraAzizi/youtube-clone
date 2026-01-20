@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}YouTube Clone{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">
+            <span class="brand-icon">▶️</span>
+            YouTube Clone
+        </a>
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'videos;upload' %}" class="nav-link btn-upload">Upload</a>
+                </li>
+                <li><span class="nav-username">{{ user.username }}</span></li>
+
+                <li>
+                    <form action="{% url %}"></form>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="/login/" class="nav-link">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/signup/" class="nav-link">Sign Up</a>
+                </li>
+            {% endif %}
+
+        </ul>
