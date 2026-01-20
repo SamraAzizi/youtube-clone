@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Logged Out - YouTube{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="success-container">
+        <h1>Signed Out Successfully</h1>
+        <p>Thank you for using YouTube. You have successfully logged out of your account.</p>
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary">Sign In Again</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Go to Home</a>
+    </div>
+
+{% endblock %}
