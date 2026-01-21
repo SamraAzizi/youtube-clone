@@ -1,24 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Signed In - YouTube Clone{% endblock %}
+{% block title %}Sign In - YouTube Clone {% endblock %}
 
 {% block extra_css %}
-
 <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="auth-container">
     <div class="auth-header">
-        <h1>Signed In Successfully</h1>
-        <p>Welcome back to YouTube! You have successfully logged into your account.</p>
-        <a href="{% url 'home' %}" class="btn btn-primary">Go to Home</a>
-        <a href="{% url 'accounts:logout' %}" class="btn btn-secondary">Sign Out</a>
+        <h1>Welcome Back</h1>
+        <p>Sign in to continue with youtube clone</p>
     </div>
 
     <form method="post" class="auth-form">
         {% csrf_token %}
+
         {% if form.errors %}
             <ul class="error-list">
                 {% for field in form %}
@@ -31,21 +29,24 @@
                 {% endfor %}
             </ul>
         {% endif %}
+
         <div class="form-group">
             <label for="id_username">Username</label>
             <input type="text" name="username" id="id_username" class="form-input"
                 placeholder="Enter your username" required autofocus/>
         </div>
+
         <div class="form-group">
             <label for="id_password">Password</label>
             <input type="password" name="password" id="id_password" class="form-input"
                 placeholder="Enter your password" required/>
         </div>
+
         <button type="submit" class="btn-submit">Sign In</button>
     </form>
 
     <div class="auth-footer">
-        <p>Don't have an account? <a href="{% url 'accounts:register' %}">Create One</a></p>
+        Don't have an account? <a href="{% url 'accounts:register' %}">Create One</a>
     </div>
-    </div>
+</div>
 {% endblock %}
