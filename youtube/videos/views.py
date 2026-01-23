@@ -25,3 +25,35 @@ def video_upload(request):
                 file_data=video_file.read(),
                 file_name=video_file.name
             )
+
+            if custom_thumbnail and custom_thumbnail.startswith("data:image"):
+                try:
+                    base_name = video_file.name.rsplit(".", 1)[0]
+                    thumb_result = upload_thumbnail(
+                        file_data=custom_thumbnail,
+                        file_name=f"{base_name}_thumb.jpg"
+                    )
+                    thumbnail_url = thumb_result['url']
+                except Exception as e:
+                    pass
+
+            video = Video.objects.create(
+                user=request.user,
+                title=form.cleaned_data['title'],
+                description=form.cleaned_data['description'],
+                file_id=result['file_id'],
+                video_url=result['url'],
+                thumbnail_url=thumbnail_url,
+            )
+
+            return JsonResponse({
+                "success": "True",
+                "video_id": video.id,
+                "video_url": video.video_url,
+                "thumbnail_url": video.thumbnail_url,
+            })
+
+
+
+
+
