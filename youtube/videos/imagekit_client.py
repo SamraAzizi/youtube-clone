@@ -5,7 +5,7 @@ def get_imagekit_client():
     return ImageKit()
 
 
-def upload_image(file_data:bytes, file_name:str, folder: str = "videos"):
+def upload_video(file_data:bytes, file_name:str, folder: str = "videos"):
     public_key = os.environ.get("IMAGEKIT_PUBLIC_KEY")
 
     client = get_imagekit_client()
