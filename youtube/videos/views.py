@@ -49,9 +49,19 @@ def video_upload(request):
             return JsonResponse({
                 "success": "True",
                 "video_id": video.id,
-                "video_url": video.video_url,
-                "thumbnail_url": video.thumbnail_url,
+                "message": "Video uploaded successfully."
             })
+        
+        except Exception as e:
+            return JsonResponse({
+                "success": "False",
+                "message": f"Upload failed: {str(e)}"
+            }, status=500)
+    error = []
+    for field, errors in form.errors.items():
+        for error_msg in errors:
+            error.append(f"{field}: {error_msg}")
+
 
 
 
