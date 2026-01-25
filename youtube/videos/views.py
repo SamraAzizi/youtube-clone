@@ -63,6 +63,10 @@ def video_upload(request):
             error.append(f"{field}: {error_msg}")
 
 
+@login_required
+def video_upload_page(request):
+    return render(request, template_name="videos/upload.html", context={form: VideoUploadForm()})
+
 
 
 
