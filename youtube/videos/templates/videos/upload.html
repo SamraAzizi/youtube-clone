@@ -110,8 +110,52 @@ $("customThumbnail").onchange = e=>{
 
         
     }
+
+    reader.readAsDataURL(file);
         
 
+
+
 }
+
+
+
+$("uploadForm").onsubmit = e=>{
+    e.preventDefault();
+
+    if (!$("id_video_file").files.length || !$("id_title").value.trim()) return;
+
+
+    $("uploadOverlay").classList.add("active");
+    $("submitBtn").disabled = true;
+    $("errorContainer").innerHTML = "";
+    window.onbeforeunload = ()=> "upload in progress";
+
+    try{
+        const res = await fetch("{% url 'videos:upload_submit' %}", {
+            method: "POST",
+            body: new FormData(e.target)
+        });
+        const date = await res.json();
+        window.onbeforeunload = null;
+
+        if(data.success){
+            $('uploadStatus').textContent = "Upload Successful! Redirecting...";
+            setTimeout(()=> location.href = '{% url "videos:list" %}', 500)
+        }else{
+            throw new Error(data.error)
+
+    }
+}
+    catch(err){
+            window.onbeforeunload = null;
+            $("uploadOverlay").classList.remove("active");
+            $("submitBtn").disabled = false;
+            $("errorContainer").innerHTML = `<ul class="error-list"><li>${err.message || "upload failed"}</li></ul>`;
+
+    }
+    
+}
+    
 </script>
 {% endblock %}
