@@ -1,5 +1,5 @@
 import os
-from imagekit import ImageKit
+from imagekitio import ImageKit
 
 def get_imagekit_client():
     return ImageKit()
@@ -36,7 +36,7 @@ def upload_thumbnail(file_data:bytes, file_name:str, folder: str = "thumbnails")
     client = get_imagekit_client()
 
     response = client.files.upload(
-        file = image_bytes
+        file = image_bytes,
         file_name= file_name,
         folder= folder,
         public_key= public_key

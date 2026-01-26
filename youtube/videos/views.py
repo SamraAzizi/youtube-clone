@@ -65,7 +65,7 @@ def video_upload(request):
 
 @login_required
 def video_upload_page(request):
-    return render(request, template_name="videos/upload.html", context={form: VideoUploadForm()})
+    return render(request, template_name="videos/upload.html", context={"form": VideoUploadForm()})
 
 
 

@@ -1,7 +1,7 @@
 from django import forms
 
 
-class VideoForm(forms.Form):
+class VideoUploadForm(forms.Form):
     title = forms.CharField(
         widget=forms.TextInput(
         attrs={
@@ -13,8 +13,8 @@ class VideoForm(forms.Form):
     
       
     description = forms.CharField(
-        required=False
-        widget=forms.TextArea(
+        required=False,
+        widget=forms.Textarea(
         attrs={
             "class":"form-input",
             "placeholder":"Enter video description",

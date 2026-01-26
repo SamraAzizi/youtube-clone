@@ -62,12 +62,23 @@
                     <span id="video-label">Click to select a video file</span>
                 </label>
 
-                <input type="file" name="video_file" id="id_video_file" accept="video/*"/>
+                <input type="file" name="video_file" id="id_video_file" accept="video/*" required style="display:none;"/>
                 <span class="help-text">MP4, MOV, AVI, Max 100MB</span>
 
             </div>
 
-            <div></div>
+            <div class="form-group">
+                <label for="customThumbnail">Thumbnail (optional)</label>
+                <label class="file-input-wrapper thumb-wrapper" for="customThumbnail">
+                    <img id="thumbPreview">
+                    <span id="thumbnail-label">Click to select a thumbnail</span>
+                </label>
+                <input type="file" id="customThumbnail" accept="image/*" style="display:none;"/>
+                <input type="hidden" name="thumbnail_data" id="thumbnailData"/>
+                <span class="help-text">Leave empty to auto-generate from your video</span>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Upload Video</button>
         </form>
 
     </div>
@@ -77,9 +88,14 @@
 </div>
 
 {% endblock %}
-
-
-
 {% block extra_js %}
-<script src="{% static 'js/videos/upload.js' %}"></script>
+<script>
+
+const $ = id => document.getElementById(id);
+
+$( "id_video_file" ).onChange = e=>{
+    const file = e.target.files[0]
+    $("video-label").textContent = file ? `${file.name}` : "Click to select a video file";
+}
+</script>
 {% endblock %}
