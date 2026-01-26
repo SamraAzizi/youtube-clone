@@ -97,5 +97,21 @@ $( "id_video_file" ).onChange = e=>{
     const file = e.target.files[0]
     $("video-label").textContent = file ? `${file.name}` : "Click to select a video file";
 }
+
+$("customThumbnail").onchange = e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = en => {
+        $("thumbPreview").src = ev.target.result;
+        $("thumbnailPreview").classList.add("visible");
+        $("thumbnailData").value = ev.target.result;
+        $("thumbnail-label").style.display = "none";
+
+        
+    }
+        
+
+}
 </script>
 {% endblock %}
