@@ -141,7 +141,7 @@ $("uploadForm").onsubmit = e=>{
 
         if(data.success){
             $('uploadStatus').textContent = "Upload Successful! Redirecting...";
-            setTimeout(()=> location.href = '{% url "videos:upload" %}', 500)
+            setTimeout(()=> location.href = '{% url "videos:list" %}', 500)
         }else{
             throw new Error(data.error)
 

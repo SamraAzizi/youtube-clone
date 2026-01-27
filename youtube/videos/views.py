@@ -10,6 +10,9 @@ from .imagekit_client import upload_video, upload_thumbnail
 
 # Create your views here.
 
+def video_list(request):
+    videos = Video.objects.all()
+    return render(request, template_name="videos/list.html", context={"videos": videos})
 
 @login_required
 @require_POST
