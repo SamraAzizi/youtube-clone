@@ -11,7 +11,7 @@ def upload_video(file_data:bytes, file_name:str, folder: str = "videos"):
     client = get_imagekit_client()
 
     response = client.files.upload(
-        file_data= file_data,
+        file= file_data,
         file_name= file_name,
         folder= folder,
         public_key= public_key
