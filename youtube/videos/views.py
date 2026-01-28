@@ -8,6 +8,10 @@ from .forms import VideoUploadForm
 from .imagekit_client import upload_video, upload_thumbnail
 
 
+def video_detail(request, video_id):
+    video = get_object_or_404(Video.objects.select_related("user"), id=video_id)
+    return render(request, template_name="videos/detail.html", context={"video": video})
+
 # Create your views here.
 
 def video_list(request):

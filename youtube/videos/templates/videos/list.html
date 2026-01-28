@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block title %}
+Videos - Youtube Clone
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/videos.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if videos %}
+    <div class="video-grid">
+        {% for video in videos %}
+        <a href="{% url 'vidoes:detail' video.id %}" class="video-card">
+            <div class="video-thumbnail">
+                <img src="{{ video.display_thumbnail_url }}" alt="{{ video.title}}" loading="lazy">
+                <span class="play-icon">▶️</span>
+
+            </div>
+
+            <div class="video-info">
+                <h3 class="video-title">{{ video.title }}</h3>
+                <p class="video-meta">{{ video.uploader.username }} | {{ video.view }}</p>
+
+            </div>
+        </a>
+    
+    </div>
