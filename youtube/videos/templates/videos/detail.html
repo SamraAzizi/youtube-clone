@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block title %}
+{{ video.title }} - Youtube Clone
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/videos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/videoplayer.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="video-player-container">
+    <div class="video-player">
+        <video id="video-player" controls preload="none" poster="{{ video.display_thumbnail }}">
+            <div id="video-error" class="video-error" style="display: none;">
+                <span class="error-icon">⚡</span>
+                <p>Video Unavailable</p>
+                <small>The video file could not be loaded</small>
+            </div>
+
+        </video>
+
+
+    </div>
+
+    <div class="video-details">
+        <h1>{{ video.title }}</h1>
+
+
+        <div class="video-stats">
+            <span class="video-stats-left">{{ video.views }} views || {{ video.created_at|date: "M d, Y"}}</span>
+
+            <div class="video-actions">
+                <button class="vote-btn" data-vote="like" onclick="vote({{ vote.id }}, 'like')">
+                    👍<span id="like-count">{{ video.like }}</span>
+                </button>
+
+                <button class="vote-btn" data-vote="like" onclick="vote({{ vote.id }}, 'dislike')">
+                    👎<span id="dislike-count">{{ video.dislike }}</span>
+                </button>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
