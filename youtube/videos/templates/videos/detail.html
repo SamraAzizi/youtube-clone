@@ -47,6 +47,26 @@
             </div>
         </div>
 
+        <div class="video-channel">
+            <div class="channel-avater">{{ video.user.username|slice:":1"|upper }}</div>
+            <a href="{% url 'videos:channel' video.user.username %}" class = "channel-name">{{ video.user.username }}</a>
+
+            </div>
+
+            {% if video.description %}
+            <p class="video-description">{{ video.description }}</p>
+
+            {% endif %}
+
+            {% if request.user == video.user %}
+            <div class="video-owner-actions">
+                <button class="delete-btn" type="button" onClick="() => {}">Delete</button>
+
+            </div>
+            {% endif %}
+
+        </div>
+
     </div>
 </div>
 
