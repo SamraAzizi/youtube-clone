@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block title %}
+{{ channel_name }} - Youtube Clone
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/videos.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="channel-header">
+    <div class="channel-header-avatar">{{ channel_name|slice:":1"}}</div>
+    <h1>{{ channel_name }}</h1>
+
+</div>
+
+{% if videos %}
+    <div class="video-grid">
+        {% for video in videos %}
+        <a href="{% url 'vidoes:detail' video.id %}" class="video-card">
+            <div class="video-thumbnail">
+                <img src="{{ video.display_thumbnail_url }}" alt="{{ video.title}}" loading="lazy">
+                <span class="play-icon">▶️</span>
+
+            </div>
+
+            <div class="video-info">
+                <h3 class="video-title">{{ video.title }}</h3>
+                <p class="video-meta">{{ video.uploader.username }} | {{ video.view }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <span class="empty-icon">🎬</span>
+        <h2>No videos uploaded yet</h2>
+        <p>This channel has no videos uploaded yet.</p>
+
+    </div>
+{% endif %}
+
+
+{% endblock %}
