@@ -18,6 +18,12 @@ def video_list(request):
     videos = Video.objects.all()
     return render(request, template_name="videos/list.html", context={"videos": videos})
 
+
+def channel_video(request, username):
+    videos = Video.objects.filter(user__username=username)
+    return render(request, template_name="videos/channel.html", context={"videos": videos, "channel_name": username})
+
+
 @login_required
 @require_POST
 def video_upload(request):
