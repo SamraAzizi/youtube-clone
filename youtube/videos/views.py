@@ -84,3 +84,20 @@ def video_upload_page(request):
 
 
 
+@login_required
+@require_POST
+
+def delete_video(request, video_id):
+    video = get_object_or_404(Video, id=video_id, user=request.user)
+    try:
+        delete_video(video.file_id)
+        video.delete()
+        return JsonResponse({
+            "success": "True",
+            "message": "Video deleted successfully."
+        })
+    except Exception as e:
+        return JsonResponse({
+            "success": "False",
+            "message": f"Deletion failed: {str(e)}"
+        }, status=500)
