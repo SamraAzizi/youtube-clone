@@ -3,13 +3,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 
-from .models import Video
+from .models import Video, VideoLike
 from .forms import VideoUploadForm
 from .imagekit_client import upload_video, upload_thumbnail
 
 
 def video_detail(request, video_id):
     video = get_object_or_404(Video.objects.select_related("user"), id=video_id)
+    video.view_count += 1
+    video.save(update_fields=["views"])
     return render(request, template_name="videos/detail.html", context={"video": video})
 
 # Create your views here.
@@ -91,13 +93,67 @@ def delete_video(request, video_id):
     video = get_object_or_404(Video, id=video_id, user=request.user)
     try:
         delete_video(video.file_id)
-        video.delete()
-        return JsonResponse({
+        
+    except Exception as e:
+        print(e)
+        pass
+
+    video.delete()
+    return JsonResponse({
             "success": "True",
             "message": "Video deleted successfully."
         })
-    except Exception as e:
+
+@login_required
+@require_POST
+
+def video_vote(request, video_id):
+    video= get_object_or_404(Video, id=video_id)
+    vote_type = request.POST.get("vote")
+
+    if vote_type not in ["like", "dislike"]:
         return JsonResponse({
             "success": "False",
-            "message": f"Deletion failed: {str(e)}"
-        }, status=500)
+            "error": "Invalid vote type."
+        }, status=400)
+    
+    value = VideoLike.LIKE if vote_type == "like" else VideoLike.DISLIKE
+
+    existing_vote = VideoLike.objects.filter(user=request.user, video=video).first()
+
+    if existing_vote:
+        if existing_vote.value == value:
+            
+            if value == VideoLike.LIKE:
+                video.likes -= 1
+            else:
+                video.dislikes -= 1
+            existing_vote.delete()
+            user_vote = None
+        else:
+            if value == VideoLike.LIKE:
+                video.likes += 1
+                video.dislikes -= 1
+            else:
+                video.dislikes += 1
+                video.likes -= 1
+            
+            existing_vote.value = value
+            existing_vote.save()
+            user_vote = value
+    else:
+        VideoLike.objects.create(user=request.user, video=video, value=value)
+        if value == VideoLike.LIKE:
+            video.likes += 1
+        else:
+            video.dislikes += 1
+        user_vote = value
+
+    video.save(update_fields=["likes", "dislikes"])
+
+    return JsonResponse({
+
+        "user_vote": user_vote,
+        "likes": video.likes,
+        "dislikes": video.dislikes
+    })

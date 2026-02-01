@@ -9,6 +9,6 @@ urlpatterns = [
     path('upload/submit/', views.video_upload, name='upload_submit'),
     path('<int:video_id>/', views.video_detail, name='detail'),
     path("channel/<str:username>/", views.channel_video, name="channel"),
-    path('<int:video_id>delete', views.video_delete, name='delete'),
+    path('<int:video_id>delete', views.delete_video, name='delete'),
 
 ]

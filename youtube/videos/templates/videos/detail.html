@@ -60,7 +60,7 @@
 
             {% if request.user == video.user %}
             <div class="video-owner-actions">
-                <button class="delete-btn" type="button" onClick="() => {}">Delete</button>
+                <button class="delete-btn" type="button" onClick="deleteVideo({{ video.id }})">Delete</button>
 
             </div>
             {% endif %}
