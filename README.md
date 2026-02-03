@@ -1,6 +1,6 @@
 # YouTube Clone - Django Web Application
 
-A full-featured YouTube clone built with Django, replicating the core functionalities of the world's largest video-sharing platform. This project demonstrates modern web development practices with a focus on user experience, video handling, and social features.
+A YouTube clone built with Django. This project demonstrates modern web development practices with a focus on user experience with django 
 
 ## 🌟 Features
 
@@ -68,3 +68,27 @@ python manage.py runserver
 
 Visit `http://127.0.0.1:8000` in your browser
 
+## Project Structure
+
+```bash
+youtube-clone/
+├── accounts/              # User authentication and profiles
+│   ├── models.py         # User models
+│   ├── views.py          # Authentication views
+│   ├── urls.py           # User-related URLs
+│   └── templates/        # Auth templates
+├── videos/               # Core video functionality
+│   ├── models.py         # Video, Comment, Like models
+│   ├── views.py          # Video views and API
+│   └── templates/        # Video templates
+├── youtube/            # Project configuration
+│   ├── settings.py      # Django settings
+│   ├── urls.py          # Main URL routing
+│   └── wsgi.py          # WSGI configuration
+├── static/              # Static files
+│   ├── css/            # Stylesheets
+├── templates/           # Base templates
+│   └── base.html       # Main templat             
+├── requirements.txt    # Python dependencies
+└── manage.py          # Django management script
+```
