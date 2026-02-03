@@ -12,7 +12,17 @@ def video_detail(request, video_id):
     video = get_object_or_404(Video.objects.select_related("user"), id=video_id)
     video.view_count += 1
     video.save(update_fields=["views"])
-    return render(request, template_name="videos/detail.html", context={"video": video})
+    
+    user_vote = None
+    if request.user.is_authenticated:
+        like = VideoLike.objects.filter(user=request.user, video=video).first()
+        if like:
+            user_vote = like.value
+
+
+
+
+    return render(request, template_name="videos/detail.html", context={"video": video, "user_vote": user_vote})
 
 # Create your views here.
 

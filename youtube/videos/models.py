@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from .imagekit_client import (
-    get_optimized_video_url, get_streaming_video_url, get_imagekit_client
+    get_optimized_video_url, get_streaming_video_url, get_imagekit_client, get_image_watermark
 )
 
 
@@ -31,7 +31,7 @@ class Video(models.Model):
     @property
     def display_thumbnail_url(self):
         if self.thumbnail_url and "/thumbnail/" in self.thumbnail_url:
-            return self.thumbnail_url
+            return get_image_watermark(self.thumbnail_url, username=self.user.username)
         return self.generated_thumbnail_url()
     
     @property
@@ -51,3 +51,22 @@ class Video(models.Model):
         if not self.video_url:
             return ""
         return get_optimized_video_url(self.video_url)
+    
+class VideoLike(models.Model):
+    LIKE = 1
+    DISLIKE = -1
+    LIKE_CHOICES = [
+        (LIKE, "Like"),
+        (DISLIKE, "Dislike"),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='likes_dislikes')
+    value = models.SmallIntegerField(choices=LIKE_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'video']
+
+    def __str__(self):
+        action = "Liked" if self.value == self.LIKE else "Disliked"
+        return f"{self.user.username} {action} {self.video.title}"
